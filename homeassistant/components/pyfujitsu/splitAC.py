@@ -172,6 +172,7 @@ class splitAC:
 
     @adjust_temperature.setter
     def adjust_temperature(self,properties):
+        print(properties)
         if isinstance(properties,(list, tuple)):
             self._adjust_temperature = self._get_prop_from_json('adjust_temperature',properties)
         elif isinstance(properties,int) or isinstance(properties,float):
