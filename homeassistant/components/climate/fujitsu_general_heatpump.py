@@ -71,7 +71,9 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         _LOGGER.error("Unable to authenticate with Fujistsu General")
         return
     ##TODO get devices shoud return DSNs
-    add_devices(FujitsuClimate(fglairapi, dsn) for dsn in fglairapi.get_devices_dsn())
+    devices = fglairapi.get_devices_dsn()
+    print (devices)
+    add_devices(FujitsuClimate(fglairapi, dsn) for dsn in devices )
 
 class FujitsuClimate(ClimateDevice):
     """Representation of a Fujitsu HVAC."""
