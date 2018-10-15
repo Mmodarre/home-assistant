@@ -133,8 +133,9 @@ class splitAC:
 
     ## Operation Mode setting
     def changeOperationMode(self,operationMode):
+        print(operationMode)
         if not isinstance(operationMode, int):
-            operationMode = self._operation_mode_translate(operationMode)
+            operationMode = self._operation_mode_translate(operationMode.upper)
         self.operation_mode = operationMode
 
     

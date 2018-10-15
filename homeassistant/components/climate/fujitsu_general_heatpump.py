@@ -190,7 +190,7 @@ class FujitsuClimate(ClimateDevice):
 
     def set_operation_mode(self, operation_mode: str):
         """Set new target operation mode."""
-        self._fujitsu_device.change_operation_mode = operation_mode.upper
+        self._fujitsu_device.change_operation_mode = operation_mode
 
 #    def set_swing_mode(self, swing_mode):
 #        """Set new target swing operation."""
