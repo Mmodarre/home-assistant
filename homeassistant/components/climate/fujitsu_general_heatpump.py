@@ -143,7 +143,7 @@ class FujitsuClimate(ClimateDevice):
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        return self._fujitsu_device.adjust_temperature
+        return self._fujitsu_device.adjust_temperature['value']
 
     @property
     def target_temperature_step(self):
@@ -163,7 +163,7 @@ class FujitsuClimate(ClimateDevice):
     @property
     def is_on(self):
         """Return true if on."""
-        if self._fujitsu_device.operation_mode != 0:
+        if self._fujitsu_device.operation_mode['value'] != 0:
             return True
         else:
             return False
@@ -171,7 +171,7 @@ class FujitsuClimate(ClimateDevice):
     @property
     def current_fan_mode(self):
         """Return the fan setting."""
-        return self._fujitsu_device.operation_mode.fan_speed
+        return self._fujitsu_device.fan_speed['value']
 
     @property
     ## Todo!!
@@ -183,7 +183,7 @@ class FujitsuClimate(ClimateDevice):
     ## Todo combine swing modes in to one
     def current_swing_mode(self):
         """Return the fan setting."""
-        return self._fujitsu_device.operation_mode.af_horizontal_direction
+        return self._fujitsu_device.af_horizontal_direction['value']
 
     @property
     ## Todo!
