@@ -92,7 +92,6 @@ class FujitsuClimate(ClimateDevice):
             | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
             | SUPPORT_SWING_MODE | SUPPORT_ON_OFF
         self._target_temperature = self.target_temperature
-        self._target_humidity = self.target_humidity
         self._unit_of_measurement = self.unit_of_measurement
         self._current_fan_mode = self.current_fan_mode
         self._current_operation = self.current_operation
