@@ -221,4 +221,4 @@ class FujitsuClimate(ClimateDevice):
     @property
     def supported_features(self):
         """Return the list of supported features."""
-        return self._supported_features
+        return self._support_flags
