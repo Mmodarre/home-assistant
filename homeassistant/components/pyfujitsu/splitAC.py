@@ -179,7 +179,7 @@ class splitAC:
     def operation_mode(self): return self._operation_mode
 
     @property
-    def operation_mode_desc(self): return self._operation_mode_translate(self.operation_mode['value'])
+    def operation_mode_desc(self): return self._operation_mode_translate(self.operation_mode['value']).capitalize()
 
     @operation_mode.setter
     def operation_mode(self,properties):
