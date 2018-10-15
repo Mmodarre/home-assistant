@@ -58,7 +58,7 @@ HA_ATTR_TO_FUJITSU = {
     ATTR_SWING_LIST : ''
 }
 
-def setup_platform(hass, config, add_devices, discovery_info=None):
+def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Fujitsu Split platform."""
     import homeassistant.components.pyfujitsu.api as fgapi
     #import pyfujitsu.api as fgapi
@@ -71,9 +71,9 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         _LOGGER.error("Unable to authenticate with Fujistsu General")
         return
     ##TODO get devices shoud return DSNs
-    devices = fglairapi.get_devices_dsn()
+    #devices = fglairapi.get_devices_dsn()
     #print(devices)
-    add_devices(FujitsuClimate(fglairapi, 'AC000W001265714'))
+    add_entities([FujitsuClimate(fglairapi, 'AC000W001265714')])
 
 class FujitsuClimate(ClimateDevice):
     """Representation of a Fujitsu HVAC."""
@@ -81,7 +81,6 @@ class FujitsuClimate(ClimateDevice):
     def __init__(self, api, dsn):
         from homeassistant.components.pyfujitsu import splitAC
         #from pyfujitsu import splitAC
-        
         self._api = api
         self._dsn = dsn
         self._fujitsu_device = splitAC.splitAC(self._api, self._dsn)
