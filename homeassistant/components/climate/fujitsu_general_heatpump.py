@@ -156,7 +156,7 @@ class FujitsuClimate(ClimateDevice):
     @property
     def current_fan_mode(self):
         """Return the fan setting."""
-        return self._fujitsu_device.fan_speed['value']
+        return self._fujitsu_device.get_fan_speed_desc()
 
     @property
     def fan_list(self):
