@@ -107,7 +107,7 @@ class FujitsuClimate(ClimateDevice):
     @property
     def name(self):
         """Return the name of the climate device."""
-        return self._fujitsu_device.name['value']
+        return self._fujitsu_device.device_name
 
 
     @property
