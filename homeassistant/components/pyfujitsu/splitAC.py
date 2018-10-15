@@ -76,19 +76,19 @@ class splitAC:
     def changeFanSpeed(self, speed):
         print(speed)
         if speed.upper() == 'QUIET':
-            fan_speed_quiet()
+            self.fan_speed_quiet()
             return None
         if speed.upper() == 'LOW':
-            fan_speed_low()
+            self.fan_speed_low()
             return None
         if speed.upper() == 'MEDIUM':
-            fan_speed_medium()
+            self.fan_speed_medium()
             return None
         if speed.upper() == 'HIGH':
-            fan_speed_high()
+            self.fan_speed_high()
             return None
         if speed.upper() == 'AUTO':
-            fan_speed_auto()
+            self.fan_speed_auto()
             return None
 
     def fan_speed_quiet(self):
@@ -112,7 +112,7 @@ class splitAC:
         }
         return FAN_SPEED_DICT[self.fan_speed['value']]
 
-        
+
     ## Direction Settings
             ## Vertical
     def vertical_swing_on(self):
