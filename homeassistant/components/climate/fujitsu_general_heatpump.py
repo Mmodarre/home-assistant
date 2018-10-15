@@ -75,7 +75,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     devices = fglairapi.get_devices_dsn()
     #print(devices)
     #add_entities([FujitsuClimate(fglairapi, 'AC000W001265714')])
-    add_entities(FujitsuClimate(fglairapi) for dsn in devices)
+    add_entities(FujitsuClimate(fglairapi, dsn) for dsn in devices)
 
 class FujitsuClimate(ClimateDevice):
     """Representation of a Fujitsu HVAC."""
