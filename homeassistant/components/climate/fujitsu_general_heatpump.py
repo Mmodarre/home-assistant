@@ -23,7 +23,7 @@ import homeassistant.helpers.config_validation as cv
 REQUIREMENTS = ['pyfujitsu==0.7.1.3']
 
 _LOGGER = logging.getLogger(__name__)
-SUPPORT_FLAGS = SUPPORT_TARGET_HUMIDITY_LOW | SUPPORT_TARGET_HUMIDITY_HIGH
+SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_USERNAME): cv.string,
     vol.Optional(CONF_PASSWORD): cv.string,
