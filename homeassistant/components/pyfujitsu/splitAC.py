@@ -74,6 +74,7 @@ class splitAC:
     ## Fan speed setting
     ## Quiet Low Medium High Auto
     def changeFanSpeed(self, speed):
+        print(speed)
         if speed.upper == 'QUIET':
             fan_speed_quiet()
             return None

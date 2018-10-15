@@ -180,6 +180,7 @@ class FujitsuClimate(ClimateDevice):
 
     def set_fan_mode(self, fan_mode):
         """Set new target fan mode."""
+        print(fan_mode)
         self._fujitsu_device.changeFanSpeed(fan_mode)
 
     def set_operation_mode(self, operation_mode):
