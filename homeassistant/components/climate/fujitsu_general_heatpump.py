@@ -88,7 +88,6 @@ class FujitsuClimate(ClimateDevice):
         self._dsn = dsn
         self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
         self._name = self.name
-        #Todo make this dynamic
         self._supported_features = SUPPORT_TARGET_TEMPERATURE \
             | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
             | SUPPORT_SWING_MODE | SUPPORT_ON_OFF
@@ -98,7 +97,7 @@ class FujitsuClimate(ClimateDevice):
         self._current_operation = self.current_operation
         self._current_swing_mode = self.current_swing_mode
         self._fan_list = ['Quiet', 'Low', 'Medium', 'High', 'Auto']
-        self._operation_list = ['Heat', 'Cool', 'Auto', 'Dry', 'Fan' , 'Off']
+        self._operation_list = ['Heat', 'Cool', 'Auto', 'Dry', 'Fan']
         self._swing_list = ['Vertical Swing','Horizontal Swing', 'Vertical high', 'Vertical Mid', 'Vertical Low' ]
         self._target_temperature_high = self.target_temperature_high
         self._target_temperature_low = self.target_temperature_low
@@ -122,7 +121,6 @@ class FujitsuClimate(ClimateDevice):
         return self._fujitsu_device.operation_mode_desc
 
     @property
-    #### todo in splitAC to return a list of all possible operation modes
     def operation_list(self):
         """Return the list of available operation modes."""
         return self._operation_list
@@ -161,7 +159,6 @@ class FujitsuClimate(ClimateDevice):
         return self._fujitsu_device.fan_speed['value']
 
     @property
-    ## Todo!!
     def fan_list(self):
         """Return the list of available fan modes."""
         return self._fan_list
@@ -173,30 +170,25 @@ class FujitsuClimate(ClimateDevice):
         return self._fujitsu_device.af_horizontal_direction['value']
 
     @property
-    ## Todo!
     def swing_list(self):
         """Return the list of available swing modes."""
         return self._swing_list
 
     def set_temperature(self, **kwargs):
         """Set new target temperature."""
-        #print (kwargs.get(ATTR_TEMPERATURE))
         self._fujitsu_device.changeTemperature(kwargs.get(ATTR_TEMPERATURE))
 
-## up to here!
     def set_fan_mode(self, fan_mode):
         """Set new target fan mode."""
-        self._fujitsu_device.fan_speed = fan_mode
+        self._fujitsu_device.changeFanSpeed(fan_mode)
 
     def set_operation_mode(self, operation_mode):
         """Set new target operation mode."""
-        #print(operation_mode)
         self._fujitsu_device.changeOperationMode(operation_mode)
 
 #    def set_swing_mode(self, swing_mode):
 #        """Set new target swing operation."""
 #        raise NotImplementedError()
-
 
     def turn_on(self):
         """Turn device on."""
