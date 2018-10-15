@@ -130,7 +130,7 @@ class FujitsuClimate(ClimateDevice):
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        return self._fujitsu_device.adjust_temperature['value']
+        return self._fujitsu_device.adjust_temperature_degree
 
     @property
     def target_temperature_step(self):
