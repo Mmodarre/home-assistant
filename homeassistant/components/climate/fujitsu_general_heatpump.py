@@ -9,6 +9,7 @@ import logging
 import re
 
 import voluptuous as vol
+import homeassistant.components.pyfujitsu.api as fgapi
 
 from homeassistant.components.climate import (
     ATTR_MAX_TEMP, ATTR_MIN_TEMP, ATTR_FAN_MODE, ATTR_OPERATION_MODE,
@@ -60,7 +61,7 @@ HA_ATTR_TO_FUJITSU = {
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Fujitsu Split platform."""
-    import homeassistant.components.pyfujitsu.api as fgapi
+    #import homeassistant.components.pyfujitsu.api as fgapi
     #import pyfujitsu.api as fgapi
     username = config.get(CONF_USERNAME)
     password = config.get(CONF_PASSWORD)
@@ -78,8 +79,9 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 class FujitsuClimate(ClimateDevice):
     """Representation of a Fujitsu HVAC."""
 
-    def __init__(self, api, dsn):
+    def __init__(self, api: fgapi.Api, dsn):
         from homeassistant.components.pyfujitsu import splitAC
+        #from homeassistant.components.pyfujitsu.api import Api as fgapi
         #from pyfujitsu import splitAC
         self._api = api
         self._dsn = dsn
