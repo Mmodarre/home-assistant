@@ -85,7 +85,7 @@ class FujitsuClimate(ClimateDevice):
         #from pyfujitsu import splitAC
         self._api = api
         self._dsn = dsn
-        self._fujitsu_device = splitAC.splitAC(self._api, self._dsn)
+        self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
         self._name = self._fujitsu_device.device_name
         #Todo make this dynamic
         #self._supported_features = SUPPORT_TARGET_TEMPERATURE \
