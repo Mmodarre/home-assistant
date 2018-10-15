@@ -88,9 +88,9 @@ class FujitsuClimate(ClimateDevice):
         self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
         self._name = self._fujitsu_device.device_name
         #Todo make this dynamic
-        #self._supported_features = SUPPORT_TARGET_TEMPERATURE \
-        #    | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
-        #    | SUPPORT_OPERATION_MODE
+        self._supported_features = SUPPORT_TARGET_TEMPERATURE \
+            | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
+            | SUPPORT_OPERATION_MODE
         self._support_flags = SUPPORT_FLAGS
         if self.target_temperature is not None:
             self._support_flags = self._support_flags | SUPPORT_TARGET_TEMPERATURE
