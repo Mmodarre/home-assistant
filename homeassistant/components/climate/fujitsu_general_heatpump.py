@@ -180,6 +180,7 @@ class FujitsuClimate(ClimateDevice):
 
     def set_temperature(self, **kwargs):
         """Set new target temperature."""
+        print (kwargs)
         self._fujitsu_device.adjust_temperature = kwargs
 
 ## up to here!
