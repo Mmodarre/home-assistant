@@ -72,8 +72,8 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         return
     ##TODO get devices shoud return DSNs
     devices = fglairapi.get_devices_dsn()
-    print (devices)
-    add_devices(FujitsuClimate(fglairapi, dsn) for dsn in devices )
+    #print(devices)
+    add_devices(FujitsuClimate(fglairapi, 'AC000W001265714'))
 
 class FujitsuClimate(ClimateDevice):
     """Representation of a Fujitsu HVAC."""
