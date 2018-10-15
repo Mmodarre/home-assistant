@@ -53,7 +53,7 @@ HA_ATTR_TO_FUJITSU = {
     ATTR_FAN_MODE: 'fan_speed',
     ## Needs a swing mode attr to cover both horizontal and vertical in splitAC.py
     ATTR_SWING_MODE: 'af_vertical_swing',
-    ATTR_TARGET_TEMPERATURE: 'adjust_temperature',
+    #ATTR_TARGET_TEMPERATURE: 'adjust_temperature',
     # TO DO
     ATTR_SWING_LIST : ''
 }
