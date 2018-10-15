@@ -74,7 +74,8 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     ##TODO get devices shoud return DSNs
     devices = fglairapi.get_devices_dsn()
     #print(devices)
-    add_entities([FujitsuClimate(fglairapi, 'AC000W001265714')])
+    #add_entities([FujitsuClimate(fglairapi, 'AC000W001265714')])
+    add_entities(FujitsuClimate(fglairapi) for dsn in devices)
 
 class FujitsuClimate(ClimateDevice):
     """Representation of a Fujitsu HVAC."""
@@ -86,7 +87,7 @@ class FujitsuClimate(ClimateDevice):
         self._api = api
         self._dsn = dsn
         self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
-        self._name = self._fujitsu_device.device_name
+        self._name = self.name
         #Todo make this dynamic
         self._supported_features = SUPPORT_TARGET_TEMPERATURE \
             | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
@@ -106,7 +107,7 @@ class FujitsuClimate(ClimateDevice):
     @property
     def name(self):
         """Return the name of the climate device."""
-        return self._name
+        return self._fujitsu_device.name['value']
 
 
     @property
