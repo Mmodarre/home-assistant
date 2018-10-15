@@ -1,0 +1,1 @@
+{"access_token":"b6acc2dc17124f7bb1d1bba2a1e8c6eb","refresh_token":"dd17faec7e6342acbee5ea1e04734b71","expires_in":86400,"role":"EndUser","role_tags":[]}
