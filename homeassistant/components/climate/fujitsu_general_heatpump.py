@@ -180,8 +180,8 @@ class FujitsuClimate(ClimateDevice):
 
     def set_temperature(self, **kwargs):
         """Set new target temperature."""
-        print (kwargs.get(ATTR_TEMPERATURE))
-        self._fujitsu_device.adjust_temperature = kwargs.get(ATTR_TEMPERATURE)
+        #print (kwargs.get(ATTR_TEMPERATURE))
+        self._fujitsu_device.changeTemperature = kwargs.get(ATTR_TEMPERATURE)
 
 ## up to here!
     def set_fan_mode(self, fan_mode):
@@ -190,7 +190,7 @@ class FujitsuClimate(ClimateDevice):
 
     def set_operation_mode(self, operation_mode):
         """Set new target operation mode."""
-        self._fujitsu_device.change_operation_mode(operation_mode)
+        self._fujitsu_device.change_operation_mode = operation_mode
 
 #    def set_swing_mode(self, swing_mode):
 #        """Set new target swing operation."""
