@@ -71,10 +71,10 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     if not fglairapi._authenticate():
         _LOGGER.error("Unable to authenticate with Fujistsu General")
         return
-    ##get devices shoud return DSNs
-    #devices = fglairapi.get_devices_dsn()
+    ##TODO get devices shoud return DSNs
+    devices = fglairapi.get_devices_dsn()
+    #print(devices)
     add_entities([FujitsuClimate(fglairapi, 'AC000W001265714')])
-    #add_entities(FujitsuClimate(fglairapi,device_dsn) for device_dsn in devices)
 
 class FujitsuClimate(ClimateDevice):
     """Representation of a Fujitsu HVAC."""
