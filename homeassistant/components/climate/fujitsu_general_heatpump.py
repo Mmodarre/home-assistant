@@ -90,18 +90,7 @@ class FujitsuClimate(ClimateDevice):
         #Todo make this dynamic
         self._supported_features = SUPPORT_TARGET_TEMPERATURE \
             | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
-            | SUPPORT_OPERATION_MODE
-        self._support_flags = SUPPORT_FLAGS
-        if self.target_temperature is not None:
-            self._support_flags = self._support_flags | SUPPORT_TARGET_TEMPERATURE
-        if self.current_fan_mode is not None:
-            self._support_flags = self._support_flags | SUPPORT_FAN_MODE
-        if self.current_swing_mode is not None:
-            self._support_flags = self._support_flags | SUPPORT_SWING_MODE
-        if self.current_operation is not None:
-            self._support_flags = self._support_flags | SUPPORT_OPERATION_MODE
-        if self.is_on is not None:
-            self._support_flags = self._support_flags | SUPPORT_ON_OFF
+            | SUPPORT_SWING_MODE | SUPPORT_ON_OFF
         self._target_temperature = self.target_temperature
         self._target_humidity = self.target_humidity
         self._unit_of_measurement = self.unit_of_measurement
@@ -219,4 +208,4 @@ class FujitsuClimate(ClimateDevice):
     @property
     def supported_features(self):
         """Return the list of supported features."""
-        return self._support_flags
+        return self._supported_features
