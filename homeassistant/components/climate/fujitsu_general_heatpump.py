@@ -71,10 +71,10 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     if not fglairapi._authenticate():
         _LOGGER.error("Unable to authenticate with Fujistsu General")
         return
-    ##TODO get devices shoud return DSNs
-    #devices = fglairapi.get_devices_dsn()
-    #print(devices)
-    add_entities([FujitsuClimate(fglairapi, 'AC000W001265714')])
+    ##get devices shoud return DSNs
+    devices = fglairapi.get_devices_dsn()
+    #add_entities([FujitsuClimate(fglairapi, 'AC000W001265714')])
+    add_entities(FujitsuClimate(fglairapi,device_dsn) for device_dsn in devices)
 
 class FujitsuClimate(ClimateDevice):
     """Representation of a Fujitsu HVAC."""
@@ -100,12 +100,6 @@ class FujitsuClimate(ClimateDevice):
             self._support_flags = self._support_flags | SUPPORT_SWING_MODE
         if self.current_operation is not None:
             self._support_flags = self._support_flags | SUPPORT_OPERATION_MODE
-        if self.target_temperature_high is not None:
-            self._support_flags = \
-                self._support_flags | SUPPORT_TARGET_TEMPERATURE_HIGH
-        if self.target_temperature_low is not None:
-            self._support_flags = \
-                self._support_flags | SUPPORT_TARGET_TEMPERATURE_LOW
         if self.is_on is not None:
             self._support_flags = self._support_flags | SUPPORT_ON_OFF
         self._target_temperature = self.target_temperature
@@ -121,6 +115,10 @@ class FujitsuClimate(ClimateDevice):
         self._target_temperature_low = self.target_temperature_low
         self._on = self.is_on
         
+    @property
+    def name(self):
+        """Return the name of the climate device."""
+        return self._name
 
 
     @property
