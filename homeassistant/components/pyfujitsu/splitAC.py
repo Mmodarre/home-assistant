@@ -323,6 +323,6 @@ class splitAC:
             5 : "FAN",
             6 : "HEAT"
         }
-        return DICT_OPERATION_MODE[operation_mode]
+        return DICT_OPERATION_MODE[operation_mode.upper]
          
 
