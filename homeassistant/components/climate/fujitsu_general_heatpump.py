@@ -204,3 +204,8 @@ class FujitsuClimate(ClimateDevice):
     def supported_features(self):
         """Return the list of supported features."""
         return self._supported_features
+
+    def update(self):
+        """Retrieve latest state."""
+        self._fujitsu_device.refresh_properties()
+        #self._force_refresh = False
