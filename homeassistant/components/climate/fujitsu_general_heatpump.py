@@ -18,19 +18,25 @@ from homeassistant.components.climate import (
     STATE_FAN_ONLY, ATTR_FAN_LIST, STATE_HEAT, STATE_OFF, SUPPORT_FAN_MODE,
     SUPPORT_OPERATION_MODE, SUPPORT_SWING_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_ON_OFF,
     ClimateDevice, SUPPORT_TARGET_TEMPERATURE_HIGH, SUPPORT_TARGET_TEMPERATURE_LOW,
-    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO,SUPPORT_AUX_HEAT)
+    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO, ATTR_ENTITY_ID)
 
 from homeassistant.const import (ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS) 
 import homeassistant.helpers.config_validation as cv
 
 REQUIREMENTS = ['pyfujitsu==0.7.1.3']
 
-
+ATTR_POWERFULL_MODE = 'powerfull_mode'
 _LOGGER = logging.getLogger(__name__)
+
 SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_USERNAME): cv.string,
     vol.Optional(CONF_PASSWORD): cv.string,
+})
+
+SET_POWERFULL_MODE_SCHEMA_SCHEMA = vol.Schema({
+    vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
+    vol.Required(ATTR_POWERFULL_MODE): cv.boolean,
 })
 
 HA_STATE_TO_FUJITSU = {
@@ -94,7 +100,7 @@ class FujitsuClimate(ClimateDevice):
         self._powerfull_mode = self.powerfull_mode
         self._supported_features = SUPPORT_TARGET_TEMPERATURE \
             | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
-            | SUPPORT_SWING_MODE | SUPPORT_ON_OFF | SUPPORT_AUX_HEAT
+            | SUPPORT_SWING_MODE | SUPPORT_ON_OFF
         self._target_temperature = self.target_temperature
         self._unit_of_measurement = self.unit_of_measurement
         self._current_fan_mode = self.current_fan_mode
