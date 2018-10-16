@@ -16,7 +16,8 @@ from homeassistant.components.climate import (
     ATTR_SWING_MODE, ATTR_SWING_LIST, PLATFORM_SCHEMA, STATE_AUTO, STATE_COOL, STATE_DRY,
     STATE_FAN_ONLY, ATTR_FAN_LIST, STATE_HEAT, STATE_OFF, SUPPORT_FAN_MODE,
     SUPPORT_OPERATION_MODE, SUPPORT_SWING_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_ON_OFF,
-    ClimateDevice, SUPPORT_TARGET_TEMPERATURE_HIGH, SUPPORT_TARGET_TEMPERATURE_LOW)
+    ClimateDevice, SUPPORT_TARGET_TEMPERATURE_HIGH, SUPPORT_TARGET_TEMPERATURE_LOW,
+    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO)
 
 from homeassistant.const import (ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS) 
 import homeassistant.helpers.config_validation as cv
@@ -134,6 +135,11 @@ class FujitsuClimate(ClimateDevice):
     def target_temperature_step(self):
         """Return the supported step of target temperature."""
         return 0.5
+
+    @property
+    def powerfull_mode(self):
+        """ Return Powerfull mode state"""
+        return self._fujitsu_device.powerful_mode
 
     @property
     def target_temperature_high(self):
