@@ -1,26 +1,20 @@
 """
-Support for the Fujitsu General Split A/C.
+Support for the Fujitsu General Split A/C Wifi platform AKA FGLair .
 
 For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/climate.fujistsu/
 """
 
 import logging
-import re
-from datetime import timedelta
-
 import voluptuous as vol
 import homeassistant.components.pyfujitsu.api as fgapi
 
 from homeassistant.components.climate import (
-    ATTR_MAX_TEMP, ATTR_MIN_TEMP, ATTR_FAN_MODE, ATTR_OPERATION_MODE,
-    ATTR_SWING_MODE, ATTR_SWING_LIST, PLATFORM_SCHEMA, STATE_AUTO, STATE_COOL, STATE_DRY,
-    STATE_FAN_ONLY, ATTR_FAN_LIST, STATE_HEAT, STATE_OFF, SUPPORT_FAN_MODE,
+    PLATFORM_SCHEMA, SUPPORT_FAN_MODE,
     SUPPORT_OPERATION_MODE, SUPPORT_SWING_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_ON_OFF,
-    ClimateDevice, SUPPORT_TARGET_TEMPERATURE_HIGH, SUPPORT_TARGET_TEMPERATURE_LOW,
-    ATTR_AUX_HEAT, SUPPORT_AUX_HEAT)
+    ClimateDevice, SUPPORT_AUX_HEAT)
 
-from homeassistant.const import (ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS) 
+from homeassistant.const import (ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS)
 import homeassistant.helpers.config_validation as cv
 
 REQUIREMENTS = ['pyfujitsu==0.7.1.3']
@@ -33,36 +27,6 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_USERNAME): cv.string,
     vol.Optional(CONF_PASSWORD): cv.string,
 })
-
-
-HA_STATE_TO_FUJITSU = {
-    STATE_FAN_ONLY: 'FAN',
-    STATE_DRY: 'DRY',
-    STATE_COOL: 'COOL',
-    STATE_HEAT: 'HEAR',
-    STATE_AUTO: 'AUTO',
-    STATE_OFF: 'OFF',
-}
-
-
-FUJITSU_TO_HA_STATE = {
-    'FAN': STATE_FAN_ONLY,
-    'DRY': STATE_DRY,
-    'COOL': STATE_COOL,
-    'HEAT': STATE_HEAT,
-    'AUTO': STATE_AUTO,
-    'OFF': STATE_OFF,
-}
-
-HA_ATTR_TO_FUJITSU = {
-    ATTR_OPERATION_MODE: 'operation_mode',
-    ATTR_FAN_MODE: 'fan_speed',
-    ## Needs a swing mode attr to cover both horizontal and vertical in splitAC.py
-    ATTR_SWING_MODE: 'af_vertical_swing',
-    #ATTR_TARGET_TEMPERATURE: 'adjust_temperature',
-    # TO DO
-    ATTR_SWING_LIST : ''
-}
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Fujitsu Split platform."""
@@ -81,20 +45,16 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     add_entities(FujitsuClimate(fglairapi, dsn) for dsn in devices)
 
 class FujitsuClimate(ClimateDevice):
-    """Representation of a Fujitsu HVAC."""
+    """Representation of a Fujitsu Heatpump."""
 
     def __init__(self, api: fgapi.Api, dsn):
         from homeassistant.components.pyfujitsu import splitAC
-        #from homeassistant.components.pyfujitsu.api import Api as fgapi
         #from pyfujitsu import splitAC
         self._api = api
         self._dsn = dsn
         self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
         self._name = self.name
         self._aux_heat = self.is_aux_heat_on
-        self._supported_features = SUPPORT_TARGET_TEMPERATURE \
-            | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
-            | SUPPORT_SWING_MODE | SUPPORT_ON_OFF | SUPPORT_AUX_HEAT
         self._target_temperature = self.target_temperature
         self._unit_of_measurement = self.unit_of_measurement
         self._current_fan_mode = self.current_fan_mode
@@ -102,11 +62,15 @@ class FujitsuClimate(ClimateDevice):
         self._current_swing_mode = self.current_swing_mode
         self._fan_list = ['Quiet', 'Low', 'Medium', 'High', 'Auto']
         self._operation_list = ['Heat', 'Cool', 'Auto', 'Dry', 'Fan']
-        self._swing_list = ['Vertical Swing','Horizontal Swing', 'Vertical high', 'Vertical Mid', 'Vertical Low' ]
+        self._swing_list = ['Vertical Swing','Horizontal Swing', 'Vertical high',
+                            'Vertical Mid', 'Vertical Low' ]
         self._target_temperature_high = self.target_temperature_high
         self._target_temperature_low = self.target_temperature_low
         self._on = self.is_on
-        
+        self._supported_features = SUPPORT_TARGET_TEMPERATURE \
+            | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
+            | SUPPORT_SWING_MODE | SUPPORT_ON_OFF | SUPPORT_AUX_HEAT
+
     @property
     def name(self):
         """Return the name of the climate device."""
@@ -143,16 +107,6 @@ class FujitsuClimate(ClimateDevice):
     def powerfull_mode(self):
         """ Return Powerfull mode state"""
         return self._fujitsu_device.powerful_mode
-
-    @property
-    def target_temperature_high(self):
-        """Return the highbound target temperature we try to reach."""
-        return 30
-
-    @property
-    def target_temperature_low(self):
-        """Return the lowbound target temperature we try to reach."""
-        return 16
 
     @property
     def is_on(self):
@@ -211,18 +165,18 @@ class FujitsuClimate(ClimateDevice):
 
     @property
     def is_aux_heat_on(self):
-        """Return true if aux heater."""
+        """Reusing is for Powerfull mode."""
         if self._fujitsu_device.powerful_mode['value'] == 1:
             return True
         else:
             return False
 
     def turn_aux_heat_on(self):
-        """Turn auxiliary heater on."""
+        """Reusing is for Powerfull mode."""
         self._fujitsu_device.powerfull_mode_on()
 
     def turn_aux_heat_off(self):
-        """Turn auxiliary heater off."""
+        """Reusing is for Powerfull mode."""
         self._fujitsu_device.powerfull_mode_off()
 
     @property
@@ -243,4 +197,3 @@ class FujitsuClimate(ClimateDevice):
     def update(self):
         """Retrieve latest state."""
         self._fujitsu_device.refresh_properties()
-        #self._force_refresh = False
