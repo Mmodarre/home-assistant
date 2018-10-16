@@ -7,6 +7,7 @@ https://home-assistant.io/components/climate.fujistsu/
 
 import logging
 import re
+from datetime import timedelta
 
 import voluptuous as vol
 import homeassistant.components.pyfujitsu.api as fgapi
@@ -17,12 +18,15 @@ from homeassistant.components.climate import (
     STATE_FAN_ONLY, ATTR_FAN_LIST, STATE_HEAT, STATE_OFF, SUPPORT_FAN_MODE,
     SUPPORT_OPERATION_MODE, SUPPORT_SWING_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_ON_OFF,
     ClimateDevice, SUPPORT_TARGET_TEMPERATURE_HIGH, SUPPORT_TARGET_TEMPERATURE_LOW,
-    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO)
+    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO,SCAN_INTERVAL,DEFAULT_MAX_TEMP,DEFAULT_MIN_TEMP)
 
 from homeassistant.const import (ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS) 
 import homeassistant.helpers.config_validation as cv
 
 REQUIREMENTS = ['pyfujitsu==0.7.1.3']
+SCAN_INTERVAL = timedelta(seconds=20)
+DEFAULT_MAX_TEMP = 30
+DEFAULT_MIN_TEMP = 16
 
 _LOGGER = logging.getLogger(__name__)
 SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
@@ -72,7 +76,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     if not fglairapi._authenticate():
         _LOGGER.error("Unable to authenticate with Fujistsu General")
         return
-    ##TODO get devices shoud return DSNs
+
     devices = fglairapi.get_devices_dsn()
     #print(devices)
     #add_entities([FujitsuClimate(fglairapi, 'AC000W001265714')])
