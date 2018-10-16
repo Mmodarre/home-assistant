@@ -18,14 +18,14 @@ from homeassistant.components.climate import (
     STATE_FAN_ONLY, ATTR_FAN_LIST, STATE_HEAT, STATE_OFF, SUPPORT_FAN_MODE,
     SUPPORT_OPERATION_MODE, SUPPORT_SWING_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_ON_OFF,
     ClimateDevice, SUPPORT_TARGET_TEMPERATURE_HIGH, SUPPORT_TARGET_TEMPERATURE_LOW,
-    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO, ATTR_ENTITY_ID)
+    ATTR_AUX_HEAT, SUPPORT_AUX_HEAT)
 
 from homeassistant.const import (ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS) 
 import homeassistant.helpers.config_validation as cv
 
 REQUIREMENTS = ['pyfujitsu==0.7.1.3']
 
-ATTR_POWERFULL_MODE = 'powerfull_mode'
+
 _LOGGER = logging.getLogger(__name__)
 
 SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
@@ -34,10 +34,6 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_PASSWORD): cv.string,
 })
 
-SET_POWERFULL_MODE_SCHEMA_SCHEMA = vol.Schema({
-    vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
-    vol.Required(ATTR_POWERFULL_MODE): cv.boolean,
-})
 
 HA_STATE_TO_FUJITSU = {
     STATE_FAN_ONLY: 'FAN',
@@ -75,15 +71,13 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     username = config.get(CONF_USERNAME)
     password = config.get(CONF_PASSWORD)
     _LOGGER.debug("Added Fujitsu Account for username: %s ", username)
-
+    
     fglairapi = fgapi.Api(username, password)
     if not fglairapi._authenticate():
         _LOGGER.error("Unable to authenticate with Fujistsu General")
         return
 
     devices = fglairapi.get_devices_dsn()
-    #print(devices)
-    #add_entities([FujitsuClimate(fglairapi, 'AC000W001265714')])
     add_entities(FujitsuClimate(fglairapi, dsn) for dsn in devices)
 
 class FujitsuClimate(ClimateDevice):
@@ -97,10 +91,10 @@ class FujitsuClimate(ClimateDevice):
         self._dsn = dsn
         self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
         self._name = self.name
-        self._powerfull_mode = self.powerfull_mode
+        self._aux_heat = self.is_aux_heat_on
         self._supported_features = SUPPORT_TARGET_TEMPERATURE \
             | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
-            | SUPPORT_SWING_MODE | SUPPORT_ON_OFF
+            | SUPPORT_SWING_MODE | SUPPORT_ON_OFF | SUPPORT_AUX_HEAT
         self._target_temperature = self.target_temperature
         self._unit_of_measurement = self.unit_of_measurement
         self._current_fan_mode = self.current_fan_mode
@@ -214,6 +208,22 @@ class FujitsuClimate(ClimateDevice):
     def turn_off(self):
         """Turn device off."""
         return self._fujitsu_device.turnOff()
+
+    @property
+    def is_aux_heat_on(self):
+        """Return true if aux heater."""
+        if self._fujitsu_device.powerful_mode['value'] == 1:
+            return True
+        else:
+            return False
+
+    def turn_aux_heat_on(self):
+        """Turn auxiliary heater on."""
+        self._fujitsu_device.powerfull_mode_on()
+
+    def turn_aux_heat_off(self):
+        """Turn auxiliary heater off."""
+        self._fujitsu_device.powerfull_mode_off()
 
     @property
     def supported_features(self):
