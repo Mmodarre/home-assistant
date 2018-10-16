@@ -18,7 +18,7 @@ from homeassistant.components.climate import (
     STATE_FAN_ONLY, ATTR_FAN_LIST, STATE_HEAT, STATE_OFF, SUPPORT_FAN_MODE,
     SUPPORT_OPERATION_MODE, SUPPORT_SWING_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_ON_OFF,
     ClimateDevice, SUPPORT_TARGET_TEMPERATURE_HIGH, SUPPORT_TARGET_TEMPERATURE_LOW,
-    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO, SCAN_INTERVAL, DEFAULT_MAX_TEMP, DEFAULT_MIN_TEMP)
+    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO,SUPPORT_AUX_HEAT)
 
 from homeassistant.const import (ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS) 
 import homeassistant.helpers.config_validation as cv
@@ -87,9 +87,6 @@ class FujitsuClimate(ClimateDevice):
         from homeassistant.components.pyfujitsu import splitAC
         #from homeassistant.components.pyfujitsu.api import Api as fgapi
         #from pyfujitsu import splitAC
-        self.SCAN_INTERVAL = timedelta(seconds=20)
-        self.DEFAULT_MAX_TEMP = 30
-        self.DEFAULT_MIN_TEMP = 16
         self._api = api
         self._dsn = dsn
         self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
@@ -97,7 +94,7 @@ class FujitsuClimate(ClimateDevice):
         self._powerfull_mode = self.powerfull_mode
         self._supported_features = SUPPORT_TARGET_TEMPERATURE \
             | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
-            | SUPPORT_SWING_MODE | SUPPORT_ON_OFF
+            | SUPPORT_SWING_MODE | SUPPORT_ON_OFF | SUPPORT_AUX_HEAT
         self._target_temperature = self.target_temperature
         self._unit_of_measurement = self.unit_of_measurement
         self._current_fan_mode = self.current_fan_mode
