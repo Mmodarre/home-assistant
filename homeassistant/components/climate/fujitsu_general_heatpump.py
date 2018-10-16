@@ -18,15 +18,13 @@ from homeassistant.components.climate import (
     STATE_FAN_ONLY, ATTR_FAN_LIST, STATE_HEAT, STATE_OFF, SUPPORT_FAN_MODE,
     SUPPORT_OPERATION_MODE, SUPPORT_SWING_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_ON_OFF,
     ClimateDevice, SUPPORT_TARGET_TEMPERATURE_HIGH, SUPPORT_TARGET_TEMPERATURE_LOW,
-    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO,SCAN_INTERVAL,DEFAULT_MAX_TEMP,DEFAULT_MIN_TEMP)
+    STATE_PERFORMANCE, STATE_HIGH_DEMAND, STATE_ECO, SCAN_INTERVAL, DEFAULT_MAX_TEMP, DEFAULT_MIN_TEMP)
 
 from homeassistant.const import (ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS) 
 import homeassistant.helpers.config_validation as cv
 
 REQUIREMENTS = ['pyfujitsu==0.7.1.3']
-SCAN_INTERVAL = timedelta(seconds=20)
-DEFAULT_MAX_TEMP = 30
-DEFAULT_MIN_TEMP = 16
+
 
 _LOGGER = logging.getLogger(__name__)
 SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
@@ -89,6 +87,9 @@ class FujitsuClimate(ClimateDevice):
         from homeassistant.components.pyfujitsu import splitAC
         #from homeassistant.components.pyfujitsu.api import Api as fgapi
         #from pyfujitsu import splitAC
+        self.SCAN_INTERVAL = timedelta(seconds=20)
+        self.DEFAULT_MAX_TEMP = 30
+        self.DEFAULT_MIN_TEMP = 16
         self._api = api
         self._dsn = dsn
         self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
