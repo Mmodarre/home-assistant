@@ -226,6 +226,16 @@ class FujitsuClimate(ClimateDevice):
         self._fujitsu_device.powerfull_mode_off()
 
     @property
+    def min_temp(self):
+        """Return the minimum temperature."""
+        return 16
+
+    @property
+    def max_temp(self):
+        """Return the maximum temperature."""
+        return 30
+
+    @property
     def supported_features(self):
         """Return the list of supported features."""
         return self._supported_features

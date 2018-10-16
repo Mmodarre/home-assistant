@@ -104,12 +104,10 @@ SET_AWAY_MODE_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
     vol.Required(ATTR_AWAY_MODE): cv.boolean,
 })
-
 SET_AUX_HEAT_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
     vol.Required(ATTR_AUX_HEAT): cv.boolean,
 })
-
 SET_TEMPERATURE_SCHEMA = vol.Schema(vol.All(
     cv.has_at_least_one_key(
         ATTR_TEMPERATURE, ATTR_TARGET_TEMP_HIGH, ATTR_TARGET_TEMP_LOW),
