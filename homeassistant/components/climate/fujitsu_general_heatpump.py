@@ -7,7 +7,7 @@ https://home-assistant.io/components/climate.fujistsu/
 
 import logging
 import voluptuous as vol
-import homeassistant.components.pyfujitsu.api as fgapi
+#import homeassistant.components.pyfujitsu.api as fgapi
 
 from homeassistant.components.climate import (
     PLATFORM_SCHEMA, SUPPORT_FAN_MODE,
@@ -17,7 +17,7 @@ from homeassistant.components.climate import (
 from homeassistant.const import (ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS)
 import homeassistant.helpers.config_validation as cv
 
-REQUIREMENTS = ['pyfujitsu==0.7.1.3']
+REQUIREMENTS = ['pyfujitsu==0.8.1.1']
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Fujitsu Split platform."""
     #import homeassistant.components.pyfujitsu.api as fgapi
-    #import pyfujitsu.api as fgapi
+    import pyfujitsu.api as fgapi
     username = config.get(CONF_USERNAME)
     password = config.get(CONF_PASSWORD)
     _LOGGER.debug("Added Fujitsu Account for username: %s ", username)
@@ -47,9 +47,9 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 class FujitsuClimate(ClimateDevice):
     """Representation of a Fujitsu Heatpump."""
 
-    def __init__(self, api: fgapi.Api, dsn):
-        from homeassistant.components.pyfujitsu import splitAC
-        #from pyfujitsu import splitAC
+    def __init__(self, api, dsn):
+        #from homeassistant.components.pyfujitsu import splitAC
+        from pyfujitsu import splitAC
         self._api = api
         self._dsn = dsn
         self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
