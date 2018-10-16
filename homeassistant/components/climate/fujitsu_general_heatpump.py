@@ -108,6 +108,7 @@ class FujitsuClimate(ClimateDevice):
         """ Return Powerfull mode state"""
         return self._fujitsu_device.powerful_mode
 
+
     @property
     def is_on(self):
         """Return true if on."""
@@ -178,16 +179,6 @@ class FujitsuClimate(ClimateDevice):
     def turn_aux_heat_off(self):
         """Reusing is for Powerfull mode."""
         self._fujitsu_device.powerfull_mode_off()
-
-    @property
-    def min_temp(self):
-        """Return the minimum temperature."""
-        return 16
-
-    @property
-    def max_temp(self):
-        """Return the maximum temperature."""
-        return 30
 
     @property
     def supported_features(self):
