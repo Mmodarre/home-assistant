@@ -89,6 +89,7 @@ class FujitsuClimate(ClimateDevice):
         self._dsn = dsn
         self._fujitsu_device = splitAC.splitAC(self._dsn, self._api)
         self._name = self.name
+        self._powerfull_mode = self.powerfull_mode
         self._supported_features = SUPPORT_TARGET_TEMPERATURE \
             | SUPPORT_OPERATION_MODE | SUPPORT_FAN_MODE  \
             | SUPPORT_SWING_MODE | SUPPORT_ON_OFF
